@@ -4,7 +4,7 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const mail = require('../mail');
+//const mail = require('../mail');
 
 
 // Login Form
@@ -103,7 +103,7 @@ router.post('/forgot', async function (req, res) {
     const url = `https://ancient-chamber-36974.herokuapp.com/auth/reset/${token}`;
 
     // Send the email
-    mail.sendPasswordReset(user.email, user.firstName, url);
+    //mail.sendPasswordReset(user.email, user.firstName, url);
 
     // Render the page with a confirmation message
     // res.render('forgot-password', { sent: true });
