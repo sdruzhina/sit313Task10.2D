@@ -3,8 +3,8 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 import { useHistory } from "react-router-dom";
 
 function LoginForm() {
-    // Router history
-    const history = useHistory();
+  // Router history
+  const history = useHistory();
 
   // Form data
   const [userCredentials, setUserCredentials] = useState({
@@ -25,33 +25,25 @@ function LoginForm() {
   
   const loginUser = async (e) => {
     e.preventDefault();
-    const { email, password } = userCredentials;
-    if (email === '' || password === '') {
-      // this.setState({
-      //   showError: false,
-      //   showNullError: true,
-      //   loggedIn: false,
-      // });
-    } 
-    else {
-        fetch('http://localhost:8080/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userCredentials)
-        })
-        .then(response => response.json())
-        .then((response) => {
-          if (response.token) {
-            localStorage.setItem('JWT', response.token);
-            history.push('/home');
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+
+    // Send credentials to backend
+    fetch('http://localhost:8080/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userCredentials)
+    })
+    .then(response => response.json())
+    .then((response) => {
+      if (response.token) {
+        localStorage.setItem('JWT', response.token);
+        history.push('/home');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   return (

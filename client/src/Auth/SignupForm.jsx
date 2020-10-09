@@ -1,9 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Checkbox, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import { useHistory } from "react-router-dom";
 import './SignupForm.css';
 
 function SignupForm() {
+  // Router history
+  const history = useHistory();
+
+  // Form data
+  const [userData, setUserData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    isRequester: true,
+    isWorker: false
+  });
   
+  // Event handler
+  const handleChange = (e, data) => {
+    const {name, value, checked} = data;
+    setUserData((data) => {
+      return {
+        ...data,
+        [name]: value ? value : checked
+      };
+    });
+  }
+
   return (
     <Grid textAlign='center' style={{ height: '80vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -18,6 +43,7 @@ function SignupForm() {
               type='text'
               name='firstName' 
               required
+              onChange={handleChange} 
             />
             <Form.Input 
               fluid 
@@ -25,13 +51,15 @@ function SignupForm() {
               type='text'
               name='lastName' 
               required
+              onChange={handleChange} 
             />
             <Form.Input 
               fluid 
               placeholder='Email address'
               type='email'
               name='email'
-              required 
+              required
+              onChange={handleChange} 
             />
             <Form.Input
               fluid
@@ -39,6 +67,7 @@ function SignupForm() {
               type='password'
               name='password'
               required
+              onChange={handleChange} 
             />
             <Form.Input
               fluid
@@ -46,6 +75,7 @@ function SignupForm() {
               type='password'
               name='passwordConfirm'
               required
+              onChange={handleChange} 
             />
             <div className='form-flex'>
               <Form.Field>
@@ -56,7 +86,8 @@ function SignupForm() {
                   className='flex-item'
                   label='Requester'
                   name='isRequester'
-                  value={true}
+                  checked={userData.isRequester}
+                  onChange={handleChange} 
                 />
               </Form.Field>
               <Form.Field>
@@ -64,7 +95,8 @@ function SignupForm() {
                   className='flex-item'
                   label='Worker'
                   name='isWorker'
-                  value={false}
+                  checked={userData.isWorker}
+                  onChange={handleChange}
                 />
               </Form.Field>
             </div>
