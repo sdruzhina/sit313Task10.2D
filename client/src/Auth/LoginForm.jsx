@@ -43,8 +43,10 @@ function LoginForm() {
         })
         .then(response => response.json())
         .then((response) => {
-          localStorage.setItem('JWT', response.token);
-          history.push('/home');
+          if (response.token) {
+            localStorage.setItem('JWT', response.token);
+            history.push('/home');
+          }
         })
         .catch((err) => {
           console.log(err);
