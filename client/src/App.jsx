@@ -1,20 +1,39 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import PageHeader from './PageHeader';
 import RequesterTasks from './RequesterTasks';
 import CreateTask from './CreateTask';
 import SignupForm from './Auth/SignupForm';
 import LoginForm from './Auth/LoginForm';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import RequesterRoute from './Auth/RequesterRoute';
+import './App.css';
 
 
 function App() {
+  // Get user data from local storage
+  const userData = JSON.parse(localStorage.getItem('user'));
+  let redirect;
+  if(userData) {
+    if(userData.isRequester) {
+      redirect = <Redirect to='/requester' />;
+    }
+    if(userData.isWorker) {
+      redirect = <Redirect to='/worker' />;
+    }
+  }
+  else {
+    redirect = <Redirect to='/login' />;
+  }
+
   return (
     <div className="App">
-      <PageHeader />
       <Router>
-        <Route exact path='/' component={RequesterTasks} />
-        <Route path='/create' component={CreateTask} />
+      <PageHeader />
+        <Route exact path='/'>
+          {redirect}
+        </Route>
+        <RequesterRoute path='/requester' component={RequesterTasks} />
+        <RequesterRoute path='/create' component={CreateTask} />
         <Route path='/signup' component={SignupForm} />
         <Route path='/login' component={LoginForm} />
       </Router>

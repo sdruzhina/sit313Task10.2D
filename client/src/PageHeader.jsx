@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Segment, Menu, Button } from 'semantic-ui-react'
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
 function PageHeader() {
   return (
@@ -19,7 +20,12 @@ function PageHeader() {
             <Menu.Item>
               <h3>iCrowdTask</h3>
             </Menu.Item>
-            <Menu.Item as='a' active>Requesters</Menu.Item>
+            <Menu.Item 
+              as={NavLink}
+              to='create'
+              activeClassName='active'
+              name='Requester'
+            />
             <Menu.Item position='right'>
               <Button as='a' inverted={true}>
                 Sign in
