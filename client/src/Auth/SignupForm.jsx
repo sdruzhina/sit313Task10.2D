@@ -29,13 +29,37 @@ function SignupForm() {
     });
   }
 
+  const createUser = async (e) => {
+    e.preventDefault();
+
+    // Send credentials to backend
+    fetch('http://localhost:8080/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+    .then(response => response.json())
+    .then((response) => {
+      if (response.token) {
+        localStorage.setItem('JWT', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        history.push('/home');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
   return (
     <Grid textAlign='center' style={{ height: '80vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h2' color='blue' textAlign='center'>
           Create iCrowdTask Account
         </Header>
-        <Form size='large'>
+        <Form size='large' onSubmit={createUser}>
           <Segment stacked>
           <Form.Input 
               fluid 

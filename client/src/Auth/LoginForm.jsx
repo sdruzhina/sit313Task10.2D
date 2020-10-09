@@ -38,6 +38,7 @@ function LoginForm() {
     .then((response) => {
       if (response.token) {
         localStorage.setItem('JWT', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
         history.push('/home');
       }
     })

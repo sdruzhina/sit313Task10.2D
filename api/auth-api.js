@@ -22,8 +22,20 @@ router.post('/register', (req, res, next) => {
         else {
             req.logIn(user, error => {
                 console.log(user);
-                console.log('User created');
-                res.status(200).send({ message: 'User created' });
+                const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || config.keys.jwtSecret, {
+                    expiresIn: 60 * 60,
+                });
+                const userData = {
+                    name: user.firstName,
+                    isRequester: user.isRequester,
+                    isWorker: user.isWorker
+                };
+                res.status(200).send({
+                    auth: true,
+                    token,
+                    user: userData,
+                    message: 'User created and logged in',
+                });
         });
       }
     })(req, res, next);
@@ -46,9 +58,15 @@ router.post('/login', (req, res, next) => {
                     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || config.keys.jwtSecret, {
                         expiresIn: 60 * 60,
                     });
+                    const userData = {
+                        name: user.firstName,
+                        isRequester: user.isRequester,
+                        isWorker: user.isWorker
+                    };
                     res.status(200).send({
                         auth: true,
                         token,
+                        user: userData,
                         message: 'User logged in',
                     });
                 });
