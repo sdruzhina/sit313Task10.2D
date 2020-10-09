@@ -15,30 +15,35 @@ const SignupForm = () => (
             placeholder='First name'
             type='text'
             name='firstName' 
+            required
           />
           <Form.Input 
             fluid 
             placeholder='Last name'
             type='text'
             name='lastName' 
+            required
           />
           <Form.Input 
             fluid 
             placeholder='Email address'
             type='email'
-            name='email' 
+            name='email'
+            required 
           />
           <Form.Input
             fluid
             placeholder='Password'
             type='password'
             name='password'
+            required
           />
           <Form.Input
             fluid
             placeholder='Password confirmation'
             type='password'
             name='passwordConfirm'
+            required
           />
           <div className='form-flex'>
             <Form.Field>

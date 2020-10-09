@@ -15,7 +15,8 @@ const LoginForm = () => (
             iconPosition='left' 
             placeholder='Email address'
             type='email'
-            name='email' 
+            name='email'
+            required 
           />
           <Form.Input
             fluid
@@ -24,6 +25,7 @@ const LoginForm = () => (
             placeholder='Password'
             type='password'
             name='password'
+            required
           />
           <Button color='blue' fluid size='large'>
             Login

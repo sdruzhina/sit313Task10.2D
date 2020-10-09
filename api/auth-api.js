@@ -6,26 +6,55 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 //const mail = require('../mail');
 
-
-// Login Form
-router.get('/login', (req, res) => {
-    // res.render('reqlogin.ejs', { err: req.flash('error'), email: null });
-});
-
-// Local strategy login
-router.post("/login", passport.authenticate('local', {
-        successRedirect: '/reqtask',
-        failureRedirect: '/auth/login',
-        failureFlash: true
-    }), function(req, res){
-        // Check the "Save password" flag and save session to Mongo
-        if ( req.body.savePassword ) {
-            // Set cookie to expire in 1 day
-            req.session.cookie.originalMaxAge = 24 * 60 * 60 * 1000 
+// Register a new user API route
+router.post('/register', (req, res, next) => {
+    if (req.body.password !== req.body.passwordConfirm) {
+        res.status(401).send({ message: 'Password and password confirmation must match' });
+    }
+    passport.authenticate('register', (err, user, info) => {
+        if (err) {
+            console.error(err);
+        }
+        if (info !== undefined) {
+            console.error(info.message);
+            res.status(403).send(info.message);
         } 
         else {
-            req.session.cookie.expires = false
+            req.logIn(user, error => {
+                console.log(user);
+                console.log('User created');
+                res.status(200).send({ message: 'User created' });
+        });
+      }
+    })(req, res, next);
+  });
+
+// Local strategy login
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, users, info) => {
+        if (err) {
+            console.error(`error ${err}`);
         }
+        if (info !== undefined) {
+            console.error(info.message);
+            res.status(403).send(info.message);
+        } 
+        else {
+            req.logIn(users, () => {
+                User.findOne({ email: req.body.email })
+                .then(user => {
+                    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || config.keys.jwtSecret, {
+                        expiresIn: 60 * 60,
+                    });
+                    res.status(200).send({
+                        auth: true,
+                        token,
+                        message: 'User logged in',
+                    });
+                });
+            });
+        }
+    })(req, res, next);
 });
 
 // Signup page

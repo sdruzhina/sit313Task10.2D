@@ -1,11 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Requester = require('./models/User');
+const User = require('./models/User');
 const mongoose = require('mongoose');
 const passport = require('passport')
 const passportLocalMongoose = require('passport-local-mongoose');
-// const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 
 // Routes and API
@@ -14,11 +12,22 @@ const requesterApi = require('./api/requester-api');
 const authApi = require('./api/auth-api');
 const config = require('./config');
 
+// Passport configuration file
+require('./config/passport');
+
 const app = express()
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI || config.mongoDB.uri, 
     {useNewUrlParser: true, useUnifiedTopology: true})
+
+app.use(passport.initialize());
+// app.use(passport.session());
+
+// Initialise Passport strategies for requesters
+passport.use(User.createStrategy())
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -26,27 +35,8 @@ app.use(express.static('public'));
 app.use(cors());
 app.use(requesterApi);
 //app.use(workerApi);
-app.use('/auth', authApi);
+app.use(authApi);
 
-// Session and Passport
-// app.use(session({
-//     secret : 'Deakin2020',
-//     resave: false,
-//     saveUninitialized: false, 
-//     cookie: { maxAge: 480000 },
-//     store: new MongoStore({ 
-//         mongooseConnection: mongoose.connection, 
-//         ttl: 2 * 60 * 60 // 2 hours
-//     })
-// }));
-
-app.use(passport.initialize());
-// app.use(passport.session());
-
-// Initialise Passport strategies for requesters
-passport.use(Requester.createStrategy())
-passport.serializeUser(Requester.serializeUser())
-passport.deserializeUser(Requester.deserializeUser())
 
 let port = process.env.PORT;
 if (port == null || port == '') {
