@@ -45,6 +45,16 @@ function TaskType(props) {
           onChange={handleChange}
         />
       </Form.Field>
+      <Form.Field>
+        <Checkbox
+          radio
+          label='Image Processing Task'
+          name='type'
+          value='IMAGE'
+          checked={type === 'IMAGE'}
+          onChange={handleChange}
+        />
+      </Form.Field>
     </Form>
   );
 }

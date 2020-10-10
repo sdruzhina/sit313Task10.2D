@@ -19,7 +19,7 @@ const taskSchema = new mongoose.Schema(
         type: {
             type: String,
             required: true,
-            enum: ['CHOICE', 'DECISION', 'SENTENCE'],
+            enum: ['CHOICE', 'DECISION', 'SENTENCE', 'IMAGE'],
             default: 'CHOICE'
         },
         setup: {

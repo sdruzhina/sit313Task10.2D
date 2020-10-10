@@ -19,6 +19,10 @@ const workerTaskSchema = new mongoose.Schema(
             enum: ['ACCEPTED', 'COMPLETED', 'DELETED'],
             default: 'ACCEPTED'
         },
+        response: {
+            type: Object,
+            of: String
+        },
         createdAt: {
             type: Date,
             required: true,

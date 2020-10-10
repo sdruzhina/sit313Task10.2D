@@ -110,11 +110,4 @@ router.get('/user', (req, res, next) => {
         })(req, res, next);
   });
 
-// Logout
-router.get('/logout', (req, res) => {
-    req.logout();
-    // res.redirect('/');
-});
-
-
 module.exports = router;

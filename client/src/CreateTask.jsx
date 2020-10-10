@@ -9,6 +9,7 @@ import WorkerRequirements from './CreateTaskForm/WorkerRequirements';
 import TaskSetupChoice from './CreateTaskForm/TaskSetupChoice';
 import TaskSetupDecision from './CreateTaskForm/TaskSetupDecision';
 import TaskSetupSentence from './CreateTaskForm/TaskSetupSentence';
+import TaskSetupImage from './CreateTaskForm/TaskSetupImage';
 
 function CreateTask() {
   // Router history
@@ -98,6 +99,11 @@ function CreateTask() {
           setup={taskData.setup} 
           onTaskDetailsChange={handleChange}  
         />;
+        case 'IMAGE':
+          return <TaskSetupImage
+            setup={taskData.setup} 
+            onTaskDetailsChange={handleChange}  
+          />;
       default:
         return null;
     }

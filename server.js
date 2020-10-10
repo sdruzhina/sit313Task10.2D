@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const passport = require('passport')
 const passportLocalMongoose = require('passport-local-mongoose');
 const cors = require('cors');
+const fileupload = require('express-fileupload');
 
 // Routes and API
 const requesterApi = require('./api/requester-api');
@@ -33,10 +34,10 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(cors());
+app.use(fileupload());
 app.use(requesterApi);
 //app.use(workerApi);
 app.use(authApi);
-
 
 let port = process.env.PORT;
 if (port == null || port == '') {

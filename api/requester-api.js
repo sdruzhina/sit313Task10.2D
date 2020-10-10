@@ -1,10 +1,11 @@
 var express  = require('express');
 var router = express.Router();
-const https = require("https");
-const bodyParser = require("body-parser");
-const User = require("../models/User");
-const Task = require("../models/Task");
-
+const https = require('https');
+const bodyParser = require('body-parser');
+const User = require('../models/User');
+const Task = require('../models/Task');
+const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 
 // Get all tasks
 router.get('/requester/tasks', (req, res) => {
@@ -44,5 +45,28 @@ router.post('/requester/tasks', (req, res) => {
         }
     });
 });
+
+router.post('/image-upload', (req, res) => {
+    console.log(req.files);
+    const image = req.files.myFile;
+    const filename = uuidv4() + path.extname(image.name);
+    const location = './public/uploads/' + filename;
+    
+    image.mv(location, (error) => {
+        if (error) {
+            console.error(error);
+            res.writeHead(500, {
+                'Content-Type': 'application/json'
+            });
+            res.end(JSON.stringify({ status: 'error', message: error }));
+            return;
+        }
+    
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        });
+        res.end(JSON.stringify({ status: 'success', path: '/uploads/' + filename }));
+    })
+  })
 
 module.exports = router;

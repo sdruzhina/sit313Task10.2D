@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Button, Container, Segment } from 'semantic-ui-react'
-import { BrowserRouter as Router, Link, NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function PageHeader() {
     // User data state
