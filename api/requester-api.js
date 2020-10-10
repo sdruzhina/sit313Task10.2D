@@ -49,9 +49,12 @@ router.post('/requester/tasks', (req, res) => {
 router.post('/image-upload', (req, res) => {
     console.log(req.files);
     const image = req.files.myFile;
+
+    // Create a unique filename using UUID
     const filename = uuidv4() + path.extname(image.name);
     const location = './public/uploads/' + filename;
     
+    // Move the file to /uploads
     image.mv(location, (error) => {
         if (error) {
             console.error(error);

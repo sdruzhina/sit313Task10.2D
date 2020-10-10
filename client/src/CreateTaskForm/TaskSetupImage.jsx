@@ -4,15 +4,9 @@ import { Header, Form, Button } from 'semantic-ui-react';
 function TaskSetupImage(props) {
 
   // Set up the question for the worker
-  const [question, setQuestion] = useState(
-    props.type === 'DECISION' ? props.setup : {question: ''}
+  const [filename, setFilename] = useState(
+    props.type === 'IMAGE' ? props.setup : {filename: ''}
   );
-
-  // Event handler
-  const handleChange = (e, data) => {
-    setQuestion({question: data.value});
-    props.onTaskDetailsChange({name: 'setup', value: question});
-  }
 
   // Upload handler
   const uploadImage = (event) => {
@@ -25,8 +19,10 @@ function TaskSetupImage(props) {
       body: formData
     })
     .then(response => response.json())
-    .then(data => {
-      console.log(data)
+    .then(response => {
+      console.log(response)
+      setFilename({filename: response.path});
+      props.onTaskDetailsChange({name: 'setup', value: {filename: filename}});
     })
     .catch(error => {
       console.error(error)
