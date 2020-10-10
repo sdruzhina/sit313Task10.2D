@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { Header, Form, Button } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Header, Form, Image } from 'semantic-ui-react';
 
 function TaskSetupImage(props) {
 
   // Set up the question for the worker
-  const [filename, setFilename] = useState(
+  const [image, setImage] = useState(
     props.type === 'IMAGE' ? props.setup : {filename: ''}
   );
+
+  // Force update parent state wneh image is uploaded
+  useEffect(() => { props.onTaskDetailsChange({name: 'setup', value: {filename: image.filename}}); }, [image])
 
   // Upload handler
   const uploadImage = (event) => {
@@ -21,8 +24,7 @@ function TaskSetupImage(props) {
     .then(response => response.json())
     .then(response => {
       console.log(response)
-      setFilename({filename: response.path});
-      props.onTaskDetailsChange({name: 'setup', value: {filename: filename}});
+      setImage({filename: response.path});
     })
     .catch(error => {
       console.error(error)
@@ -36,12 +38,15 @@ function TaskSetupImage(props) {
       <Form.Field>
           This task will require the worker to tag objects in the uploaded image.
         </Form.Field>
-        <Form.Group inline>
-          <Form.Field>
-            <label className='label'>Image</label>
-            <input type='file' id='imageUpload' accept='.gif,.jpg,.jpeg,.png' onChange={uploadImage}></input>
-          </Form.Field>
-        </Form.Group>
+        {image.filename 
+          ? <Image src={'http://localhost:8080' + image.filename} size='medium' /> 
+          : <Form.Group inline>
+              <Form.Field>
+                <label className='label'>Image</label>
+                <input type='file' id='imageUpload' accept='.gif,.jpg,.jpeg,.png' onChange={uploadImage}></input>
+              </Form.Field>
+            </Form.Group>
+        }
       </Form>
       
     </div>
