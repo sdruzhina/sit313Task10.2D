@@ -5,6 +5,7 @@ import RequesterTasks from './RequesterTasks';
 import CreateTask from './CreateTask';
 import SignupForm from './Auth/SignupForm';
 import LoginForm from './Auth/LoginForm';
+import Logout from './Auth/Logout';
 import RequesterRoute from './Auth/RequesterRoute';
 import './App.css';
 
@@ -36,6 +37,7 @@ function App() {
         <RequesterRoute path='/create' component={CreateTask} />
         <Route path='/signup' component={SignupForm} />
         <Route path='/login' component={LoginForm} />
+        <Route path='/logout' component={Logout} />
       </Router>
     </div>
   );

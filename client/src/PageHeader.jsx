@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Button, Container, Segment } from 'semantic-ui-react'
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom";
 
 function PageHeader() {
-  // Get user data from local storage
-  const userData = JSON.parse(localStorage.getItem('user'));
+    // User data state
+    const [userData, setUserData] = useState(null);
+    // Load user on mount
+    useEffect(() => {
+        setUserData(JSON.parse(localStorage.getItem('user')))
+    }, []);
 
   const requesterMenu = 
     userData && userData.isRequester 
