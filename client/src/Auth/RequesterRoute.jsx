@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     BrowserRouter as Router, 
     Route,
@@ -6,7 +6,13 @@ import {
   } from 'react-router-dom'
 
 function RequesterRoute({ component: Component, ...rest }) {
-    const userData = JSON.parse(localStorage.getItem('user'));
+    // User data state
+    const [userData, setUserData] = useState(null);
+    // Load user on mount
+    useEffect(() => {
+        setUserData(JSON.parse(localStorage.getItem('user')))
+    }, []);
+
     return (
         <Route {...rest} render={(props) => (
             userData && userData.isRequester 

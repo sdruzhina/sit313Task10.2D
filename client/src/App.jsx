@@ -14,11 +14,11 @@ function App() {
   const userData = JSON.parse(localStorage.getItem('user'));
   let redirect;
   if(userData) {
-    if(userData.isRequester) {
-      redirect = <Redirect to='/requester' />;
-    }
     if(userData.isWorker) {
       redirect = <Redirect to='/worker' />;
+    }
+    if(userData.isRequester) {
+      redirect = <Redirect to='/requester' />;
     }
   }
   else {
