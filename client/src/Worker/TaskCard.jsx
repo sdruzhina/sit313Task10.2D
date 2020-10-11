@@ -29,6 +29,7 @@ function TaskCard(props) {
                 <Card.Meta>Number of workers required: {props.numberWorkers}</Card.Meta>
                 <Card.Meta>Master workers: {props.master ? 'YES' : 'NO'}</Card.Meta>
               </div>
+            <Button floated='right' color='red'>Delete</Button>
           </div>
         </div>
       </Card.Content>

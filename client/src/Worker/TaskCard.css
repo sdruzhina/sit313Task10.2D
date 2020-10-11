@@ -1,0 +1,15 @@
+.flex-content {
+    display: flex;
+}
+
+.task-image {
+    margin-right: 30px;
+}
+
+.container {
+    width: 100%;
+}
+
+.description {
+    margin-bottom: 10px;
+}
