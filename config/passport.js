@@ -69,7 +69,6 @@ passport.use(
             User.findById(jwt_payload.id)
             .then(user => {
                 if (user) {
-                    console.log('User found');
                     done(null, user);
                 } 
                 else {

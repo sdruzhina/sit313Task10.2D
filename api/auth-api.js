@@ -75,39 +75,4 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-// TEST API secure endpoint
-router.get('/user', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.log(err);
-        }
-        if (info !== undefined) {
-            console.log(info.message);
-            res.status(401).send(info.message);
-        } 
-        else if (user.email === req.query.email) {
-            User.findOne({ email: req.query.email })
-            .then((userInfo) => {
-            if (userInfo != null) {
-                console.log('User found in db');
-                res.status(200).send({
-                    auth: true,
-                    firstName: userInfo.firstName,
-                    lastName: userInfo.lastName,
-                    email: userInfo.email,
-                    message: 'User found in db',
-                });
-            } 
-            else {
-                console.error('No user exists in db with that email');
-                res.status(401).send('No user exists in db with that email');
-            }
-            });
-        } else {
-            console.error('JWT id and email do not match');
-            res.status(403).send('JWT id and email do not match');
-        }
-        })(req, res, next);
-  });
-
 module.exports = router;

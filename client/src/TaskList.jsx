@@ -7,10 +7,17 @@ function TaskList() {
 
   // Load cards on mount
   useEffect(() => {
-    fetch('http://localhost:8080/requester/tasks')
-      .then(res => res.json())
-      .then(res => setTasks(res))
-      .catch((err) => console.log(err));
+    const token = localStorage.getItem('JWT');
+    fetch('http://localhost:8080/requester/tasks', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${token}`
+      }
+    })
+    .then(res => res.json())
+    .then(res => setTasks(res))
+    .catch((err) => console.log(err));
   }, [])
 
   return (

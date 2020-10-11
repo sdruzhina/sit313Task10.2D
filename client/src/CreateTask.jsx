@@ -69,10 +69,12 @@ function CreateTask() {
 
   // Save the task to DB
   function saveTask() {
+    const token = localStorage.getItem('JWT');
     fetch('http://localhost:8080/requester/tasks', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${token}`
       },
       body: JSON.stringify(taskData)
     })
