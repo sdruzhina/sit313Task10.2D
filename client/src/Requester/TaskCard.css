@@ -2,6 +2,14 @@
     display: flex;
 }
 
-.task-details {
-    margin-left: 40px;;
+.task-image {
+    margin-right: 30px;
+}
+
+.container {
+    width: 100%;
+}
+
+.description {
+    margin-bottom: 10px;
 }

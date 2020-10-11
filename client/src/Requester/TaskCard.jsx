@@ -12,7 +12,7 @@ function TaskCard(props) {
   const renderImage = () => {
     if (props.type === 'IMAGE' && props.setup.filename) {
       return(
-        <Image src={'http://localhost:8080' + props.setup.filename} size='small' />
+        <Image src={'http://localhost:8080' + props.setup.filename} size='small' className='task-image'/>
       );
     }
     return null;
@@ -23,13 +23,13 @@ function TaskCard(props) {
       <Card.Content>
         <div className='flex-content'>
           {renderImage()}
-            <div className='flex-content'>
-            <div className='task-details'>
-              <p>{props.description}</p>
-              <p>Number of workers required: {props.numberWorkers}</p>
-              <p>Master workers: {props.master ? 'YES' : 'NO'}</p>
-            </div>
-            <Button>Test</Button>
+            <div className='container'>
+              <div>
+                <Card.Description className='description'>{props.description}</Card.Description>
+                <Card.Meta>Number of workers required: {props.numberWorkers}</Card.Meta>
+                <Card.Meta>Master workers: {props.master ? 'YES' : 'NO'}</Card.Meta>
+              </div>
+            <Button floated='right' color='red'>Delete</Button>
           </div>
         </div>
       </Card.Content>
