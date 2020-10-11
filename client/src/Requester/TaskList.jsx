@@ -26,8 +26,12 @@ function TaskList() {
         key = {task._id}
         title = {task.title}
         description = {task.description}
+        type = {task.type}
+        setup = {task.setup}
         reward = {task.reward}
         expiry = {task.expiry}
+        numberWorkers = {task.numberWorkers}
+        master = {task.master}
         createdAt = {task.createdAt}
       />
   ));
