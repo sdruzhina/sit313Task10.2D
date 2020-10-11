@@ -9,6 +9,7 @@ function TaskCard(props) {
     setExpanded(!expanded);
   }
 
+  // Show the image if the task is of the image processing type
   const renderImage = () => {
     if (props.type === 'IMAGE' && props.setup.filename) {
       return(
@@ -18,6 +19,7 @@ function TaskCard(props) {
     return null;
   }
 
+  // The part of the task card which is hidden and expands on click
   const renderDetails = ()  => {
     return(
       <Card.Content>

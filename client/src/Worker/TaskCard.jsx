@@ -9,6 +9,13 @@ function TaskCard(props) {
     setExpanded(!expanded);
   }
 
+  // Handle task deletion
+  const deleteTask = (e, data) => {
+    console.log(data);
+    props.onDelete(data.name);
+  }
+
+  // Show the image if the task is of the image processing type
   const renderImage = () => {
     if (props.type === 'IMAGE' && props.setup.filename) {
       return(
@@ -18,6 +25,7 @@ function TaskCard(props) {
     return null;
   }
 
+  // The part of the task card which is hidden and expands on click
   const renderDetails = ()  => {
     return(
       <Card.Content>
@@ -29,7 +37,12 @@ function TaskCard(props) {
                 <Card.Meta>Number of workers required: {props.numberWorkers}</Card.Meta>
                 <Card.Meta>Master workers: {props.master ? 'YES' : 'NO'}</Card.Meta>
               </div>
-            <Button floated='right' color='red'>Delete</Button>
+            <Button 
+              floated='right' 
+              color='red' 
+              name={props.id}
+              onClick={deleteTask}
+            >Delete</Button>
           </div>
         </div>
       </Card.Content>
@@ -37,12 +50,9 @@ function TaskCard(props) {
   }
 
   return (
-    <Card fluid onClick={expand}>
-      <Card.Content>
-          <Card.Header>{props.title}</Card.Header>
-          <Card.Description>
-            {(props.type.toLowerCase()).replace(/^.{1}/g, props.type[0].toUpperCase()) + ' Task'}
-          </Card.Description>
+    <Card fluid>
+      <Card.Content onClick={expand} className='clickable'>
+        <Card.Header>{props.title}</Card.Header>
       </Card.Content>
       {expanded ? renderDetails() : null}
       <Card.Content extra>

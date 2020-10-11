@@ -18,6 +18,10 @@ router.get('/requester/tasks', (req, res, next) => {
             console.log(info.message);
             res.status(401).send(info.message);
         } 
+        if (!user.isRequester) {
+            console.log('User is not a requester');
+            res.status(403).send('User is not a requester');
+        }
         else {
             // Get tasks belonging to the authenticated user
             Task.find({ requesterId: user._id }, (err, taskList) => {
@@ -42,6 +46,10 @@ router.post('/requester/tasks', (req, res, next) => {
             console.log(info.message);
             res.status(401).send(info.message);
         } 
+        if (!user.isRequester) {
+            console.log('User is not a requester');
+            res.status(403).send('User is not a requester');
+        }
         else {
             // Create a new task
             const task = new Task({ 

@@ -13,3 +13,7 @@
 .description {
     margin-bottom: 10px;
 }
+
+.clickable {
+    cursor: pointer;
+}

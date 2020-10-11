@@ -27,6 +27,7 @@ router.post('/register', (req, res, next) => {
                 });
                 const userData = {
                     name: user.firstName,
+                    _id: user._id,
                     isRequester: user.isRequester,
                     isWorker: user.isWorker
                 };
@@ -60,6 +61,7 @@ router.post('/login', (req, res, next) => {
                     });
                     const userData = {
                         name: user.firstName,
+                        _id: user._id,
                         isRequester: user.isRequester,
                         isWorker: user.isWorker
                     };
