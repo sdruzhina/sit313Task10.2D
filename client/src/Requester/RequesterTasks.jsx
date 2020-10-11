@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskList from './TaskList'
+import TaskList from '../TaskList'
 import './RequesterTasks.css';
 import { Container, Header, Card, Button } from 'semantic-ui-react'
 import { Link } from "react-router-dom";

@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import PageHeader from './PageHeader';
-import RequesterTasks from './RequesterTasks';
-import CreateTask from './CreateTask';
+import RequesterTasks from './Requester/RequesterTasks';
+import CreateTask from './Requester/CreateTask';
 import SignupForm from './Auth/SignupForm';
 import LoginForm from './Auth/LoginForm';
 import Logout from './Auth/Logout';
