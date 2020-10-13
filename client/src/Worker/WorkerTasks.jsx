@@ -46,7 +46,7 @@ function WorkerTasks() {
           />
           <div>
             <div className='date-filter'>
-              <label htmlFor='dateFrom'>Expiry Date from </label>
+              <label className='date-label' htmlFor='dateFrom'>Expiry Date from </label>
               <SemanticDatepicker 
                 datePickerOnly={true}
                 name='dateFrom'
@@ -55,7 +55,7 @@ function WorkerTasks() {
                 value={dateFilter.dateFrom}
                 onChange={handleDateChange}
               />
-              <label htmlFor='dateTo'>to</label>
+              <label className='date-label' htmlFor='dateTo'>to</label>
               <SemanticDatepicker 
                 datePickerOnly={true}
                 name='dateTo'

@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom'
+import { AuthContext } from "../App";
 
 function WorkerRoute({ component: Component, ...rest }) {
-    // User data state
-    const [userData, setUserData] = useState(null);
-    // Load user on mount
-    useEffect(() => {
-        setUserData(JSON.parse(localStorage.getItem('user')))
-    }, []);
+    // User auth context
+    const { state: authState } = useContext(AuthContext);
 
     return (
         <Route {...rest} render={(props) => (
-            userData && userData.isWorker 
+            authState.user && authState.user.isWorker 
             ? <Component {...props} />
             : <Redirect to='/login' />
         )} />

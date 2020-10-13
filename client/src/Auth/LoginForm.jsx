@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
-import { useHistory } from "react-router-dom";
+import { AuthContext } from "../App";
 
 function LoginForm() {
-  // Router history
-  const history = useHistory();
 
-  // Form data
+  // Context for authentication state
+  const { dispatch } = useContext(AuthContext);
+
+  // Form data state
   const [userCredentials, setUserCredentials] = useState({
     email: '',
     password: ''
@@ -23,6 +24,7 @@ function LoginForm() {
     });
   }
   
+  // Send login data to server
   const loginUser = async (e) => {
     e.preventDefault();
 
@@ -37,9 +39,10 @@ function LoginForm() {
     .then(response => response.json())
     .then((response) => {
       if (response.token) {
-        localStorage.setItem('JWT', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-        history.push(response.user.isRequester ? '/requester' : '/worker');
+        dispatch({
+          type: 'LOGIN',
+          payload: response
+        });
       }
     })
     .catch((err) => {

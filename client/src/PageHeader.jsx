@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Menu, Button, Container, Segment } from 'semantic-ui-react'
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "./App";
 
 function PageHeader() {
-    // User data state
-    const [userData, setUserData] = useState(null);
-    // Load user on mount
-    useEffect(() => {
-        setUserData(JSON.parse(localStorage.getItem('user')))
-    }, []);
+  // User auth context
+  const { state: authState } = useContext(AuthContext);
 
   const requesterMenu = 
-    userData && userData.isRequester 
+    authState.user && authState.user.isRequester 
       ? <Menu.Item 
         as={NavLink}
         to='requester'
@@ -21,7 +18,7 @@ function PageHeader() {
       : null;
 
   const workerMenu = 
-    userData && userData.isWorker 
+    authState.user && authState.user.isWorker 
       ? <Menu.Item 
         as={NavLink}
         to='worker'
@@ -31,7 +28,7 @@ function PageHeader() {
       : null;
 
   const loginLogoutButton =
-    userData 
+    authState.user 
       ? <Menu.Item as={Link} to='logout' position='right'>
           <Button inverted={true}>
             Logout

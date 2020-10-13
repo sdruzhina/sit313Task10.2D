@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TaskCard from './TaskCard'
+import { AuthContext } from "../App";
 
 function TaskList(props) {
+  // User auth context
+  const { state: authState } = useContext(AuthContext);
 
   // List of available tasks
   const [tasks, setTasks] = useState([]);
@@ -25,18 +28,17 @@ function TaskList(props) {
 
   // Load cards on mount
   useEffect(() => {
-    const token = localStorage.getItem('JWT');
     fetch('http://localhost:8080/worker/tasks', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `JWT ${token}`
+        'Authorization': `JWT ${authState.token}`
       }
     })
     .then(res => res.json())
     .then(res => setTasks(res))
     .catch((err) => console.log(err));
-  }, []);
+  }, [authState.token]);
 
   // Delete task for this worker
   const onDelete = (taskId) => {
@@ -44,13 +46,12 @@ function TaskList(props) {
     setTasks(tasks.filter(task => task._id !== taskId));
 
     // Send the request to the API
-    const token = localStorage.getItem('JWT');
-    const userId = (JSON.parse(localStorage.getItem('user')))._id;
+    const userId = authState.user._id;
     fetch(`http://localhost:8080/worker/${userId}/workertasks/${taskId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `JWT ${token}`
+        'Authorization': `JWT ${authState.token}`
       }
     })
     .catch((err) => console.log(err));

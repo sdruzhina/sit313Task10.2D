@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Redirect } from "react-router-dom";
+import { AuthContext } from "../App";
 
-function LoginForm() {
+function Logout() {
+  // Context for authentication state
+  const { dispatch } = useContext(AuthContext);
 
   useEffect(() => {
-    localStorage.clear();
+    dispatch({
+      type: 'LOGOUT'
+    });
   }, []);
 
   return <Redirect to='/login' />;
-
 }
 
-export default LoginForm;
+export default Logout;

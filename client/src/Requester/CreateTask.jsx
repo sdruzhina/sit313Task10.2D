@@ -1,8 +1,9 @@
-import React, { useState }  from 'react';
+import React, { useState, useContext }  from 'react';
 import { useHistory } from "react-router-dom";
 import './CreateTask.css';
 import { Container, Segment, Header, Button, Modal } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
+import { AuthContext } from "../App";
 import TaskType from './CreateTaskForm/TaskType';
 import TaskDetails from './CreateTaskForm/TaskDetails';
 import WorkerRequirements from './CreateTaskForm/WorkerRequirements';
@@ -12,6 +13,9 @@ import TaskSetupSentence from './CreateTaskForm/TaskSetupSentence';
 import TaskSetupImage from './CreateTaskForm/TaskSetupImage';
 
 function CreateTask() {
+  // User auth context
+  const { state: authState } = useContext(AuthContext);
+
   // Router history
   const history = useHistory();
 
@@ -69,12 +73,11 @@ function CreateTask() {
 
   // Save the task to DB
   function saveTask() {
-    const token = localStorage.getItem('JWT');
     fetch('http://localhost:8080/requester/tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `JWT ${token}`
+        'Authorization': `JWT ${authState.token}`
       },
       body: JSON.stringify(taskData)
     })

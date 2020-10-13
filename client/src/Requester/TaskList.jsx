@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TaskCard from './TaskCard'
+import { AuthContext } from "../App";
 
 function TaskList() {
+  // User auth context
+  const { state: authState } = useContext(AuthContext);
 
+  // Task list state
   const [tasks, setTasks] = useState([]);
 
   // Load cards on mount
   useEffect(() => {
-    const token = localStorage.getItem('JWT');
     fetch('http://localhost:8080/requester/tasks', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `JWT ${token}`
+        'Authorization': `JWT ${authState.token}`
       }
     })
     .then(res => res.json())
     .then(res => setTasks(res))
     .catch((err) => console.log(err));
-  }, [])
+  }, [authState.token])
 
   return (
     tasks.map((task) => 
