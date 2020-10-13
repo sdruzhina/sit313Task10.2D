@@ -29,7 +29,7 @@ function WorkerTasks() {
           />
           <div>
             <div className='date-filter'>
-              <label for='dateFrom'>Expiry Date from </label>
+              <label htmlFor='dateFrom'>Expiry Date from </label>
               <SemanticDatepicker 
                 datePickerOnly={true}
                 name='dateFrom'
@@ -38,7 +38,7 @@ function WorkerTasks() {
                 value={dateFilter.from}
                 onChange={console.log()}
               />
-              <label for='dateTo'>to</label>
+              <label htmlFor='dateTo'>to</label>
               <SemanticDatepicker 
                 datePickerOnly={true}
                 name='dateTo'
