@@ -12,9 +12,17 @@ function WorkerTasks() {
   // State
   const [searchString, setSearchString] = useState('');
   const [dateFilter, setDateFilter] = useState({ 
-    from: today,
-    to: null
+    dateFrom: today,
+    dateTo: null
   });
+
+  // Date filter event handler
+  const handleDateChange = (e, data) => {
+    setDateFilter(prevState => ({
+      ...prevState,
+      [data.name]: data.value
+    }));
+  }
 
   return (
     <div>
@@ -34,24 +42,27 @@ function WorkerTasks() {
                 datePickerOnly={true}
                 name='dateFrom'
                 minDate={today}
-                maxDate={dateFilter.to ? dateFilter.to : null}
-                value={dateFilter.from}
-                onChange={console.log()}
+                maxDate={dateFilter.dateTo ? dateFilter.dateTo : null}
+                value={dateFilter.dateFrom}
+                onChange={handleDateChange}
               />
               <label htmlFor='dateTo'>to</label>
               <SemanticDatepicker 
                 datePickerOnly={true}
                 name='dateTo'
-                minDate={dateFilter.from ? dateFilter.from : today}
-                value={dateFilter.to}
-                onChange={console.log()}
+                minDate={dateFilter.dateFrom ? dateFilter.dateFrom : today}
+                value={dateFilter.dateTo}
+                onChange={handleDateChange}
               />
             </div>
           </div>
         </div>
         <Divider style={{margin: '10px 0 20px 0'}} />
         <Card.Group>
-          <TaskList />
+          <TaskList
+            searchString={searchString}
+            dateFilter={dateFilter} 
+          />
         </Card.Group>
       </Container>
     </div>
