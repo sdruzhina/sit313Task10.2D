@@ -1,5 +1,6 @@
 var express  = require('express');
 var router = express.Router();
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
@@ -24,14 +25,27 @@ router.get('/worker/tasks', (req, res, next) => {
         else {
             // Get only tasks AVAILABLE to the authenticated user
             // Add the WorkerTask model to each record
-            Task.aggregate([{
-                $match: {'status': 'AVAILABLE'} }, {
-                $lookup: {
+            Task.aggregate([
+                { $lookup: {
                     from: 'workertasks',
                     localField: '_id',
                     foreignField: 'taskId',
                     as: 'workerTask'
-                }}], (err, taskList) => {
+                }},
+                { $unwind: {  
+                    path: '$workerTask',
+                    preserveNullAndEmptyArrays: true
+                }},
+                { $match: {
+                    'status': 'AVAILABLE', 
+                    $or: [
+                        {'workerTask' : null}, 
+                        {$and: [
+                            {'workerTask.status': {$ne: 'DELETED'}}, 
+                            {'workerTask.workerId': (new mongoose.Schema.Types.ObjectId(user._id)).path}
+                        ]}
+                    ]}}, 
+                ], (err, taskList) => {
                     if (err) {
                         res.json(err);
                     }
