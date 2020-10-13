@@ -39,8 +39,8 @@ function TaskCard(props) {
   }
 
   return (
-    <Card fluid onClick={expand}>
-      <Card.Content>
+    <Card fluid>
+      <Card.Content onClick={expand} className='clickable'>
         <Grid>
           <Grid.Column floated='left' width={10}>
             <Card.Header className='card-header'>{props.title}</Card.Header>
