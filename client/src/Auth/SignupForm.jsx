@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form, Checkbox, Grid, Header, Message, Segment } from 'semantic-ui-react';
-import { useHistory } from "react-router-dom";
+import { AuthContext } from "../App";
 import './SignupForm.css';
 
 function SignupForm() {
-  // Router history
-  const history = useHistory();
+  // Context for authentication state
+  const { dispatch } = useContext(AuthContext);
 
   // Form data
   const [userData, setUserData] = useState({
@@ -29,6 +29,7 @@ function SignupForm() {
     });
   }
 
+  // Send user data to server
   const createUser = async (e) => {
     e.preventDefault();
 
@@ -43,9 +44,10 @@ function SignupForm() {
     .then(response => response.json())
     .then((response) => {
       if (response.token) {
-        localStorage.setItem('JWT', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-        history.push(response.user.isRequester ? '/requester' : '/worker');
+        dispatch({
+          type: 'LOGIN',
+          payload: response
+        });
       }
     })
     .catch((err) => {

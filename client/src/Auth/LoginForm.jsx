@@ -3,7 +3,6 @@ import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import { AuthContext } from "../App";
 
 function LoginForm() {
-
   // Context for authentication state
   const { dispatch } = useContext(AuthContext);
 

@@ -39,7 +39,7 @@ function TaskCard(props) {
   }
 
   return (
-    <Card fluid>
+    <Card fluid color='blue'>
       <Card.Content onClick={expand} className='clickable'>
         <Grid>
           <Grid.Column floated='left' width={10}>
