@@ -16,6 +16,11 @@ function WorkerTasks() {
     dateTo: null
   });
 
+  // Search event handler
+  const handleSearch = (e, data) => {
+    setSearchString(data.value);
+  }
+  
   // Date filter event handler
   const handleDateChange = (e, data) => {
     setDateFilter(prevState => ({
@@ -23,6 +28,7 @@ function WorkerTasks() {
       [data.name]: data.value
     }));
   }
+
 
   return (
     <div>
@@ -34,6 +40,9 @@ function WorkerTasks() {
           <Input 
             icon='search'
             placeholder='Search'
+            value={searchString}
+            name='searchString'
+            onChange={handleSearch}
           />
           <div>
             <div className='date-filter'>

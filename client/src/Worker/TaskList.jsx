@@ -1,10 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import TaskCard from './TaskCard'
 
-function TaskList() {
+function TaskList(props) {
 
   // List of available tasks
   const [tasks, setTasks] = useState([]);
+
+  // Filtered task list
+  const filteredTasks = tasks.filter(function(task) {
+    // Get task expiry date as a Date object
+    const expiryDate = new Date(task.expiry);
+
+    // Filter array by date only if both FROM and TO dates are set
+    if (props.dateFilter.dateFrom && props.dateFilter.dateTo) {
+      return task.title.toLowerCase().includes(props.searchString.toLowerCase())
+        && expiryDate >= props.dateFilter.dateFrom
+        && expiryDate <= props.dateFilter.dateTo;
+      }
+      // Otherwise only filter by search string
+      else {
+        return task.title.toLowerCase().includes(props.searchString.toLowerCase());
+      }
+  });
 
   // Load cards on mount
   useEffect(() => {
@@ -39,8 +56,9 @@ function TaskList() {
     .catch((err) => console.log(err));
   }
 
+
   return (
-    tasks.map((task) => 
+    filteredTasks.map((task) => 
       <TaskCard 
         key = {task._id}
         id = {task._id}
