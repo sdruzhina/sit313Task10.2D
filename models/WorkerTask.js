@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 
 const workerTaskSchema = new mongoose.Schema(
     {
-        workerId: {
+        worker: {
             type: Schema.Types.ObjectId,
             ref: 'User',
             required: true
         },
-        taskId: {
+        task: {
             type: Schema.Types.ObjectId,
             ref: 'Task',
             required: true

@@ -25,11 +25,13 @@ router.get('/worker/tasks', (req, res, next) => {
         else {
             // Get only tasks AVAILABLE to the authenticated user
             // Add the WorkerTask model to each record
+
+            // Get all of the user's deleted tasks
             Task.aggregate([
                 { $lookup: {
                     from: 'workertasks',
                     localField: '_id',
-                    foreignField: 'taskId',
+                    foreignField: 'task',
                     as: 'workerTask'
                 }},
                 { $unwind: {  
@@ -37,20 +39,29 @@ router.get('/worker/tasks', (req, res, next) => {
                     preserveNullAndEmptyArrays: true
                 }},
                 { $match: {
-                    'status': 'AVAILABLE', 
-                    $or: [
-                        {'workerTask' : null}, 
-                        {$and: [
-                            {'workerTask.status': {$ne: 'DELETED'}}, 
-                            {'workerTask.workerId': (new mongoose.Schema.Types.ObjectId(user._id)).path}
-                        ]}
-                    ]}}, 
-                ], (err, taskList) => {
+                    $and: [
+                        {'workerTask.status': 'DELETED'}, 
+                        {'workerTask.worker': mongoose.Types.ObjectId(user._id)}
+                    ] 
+                }}, 
+                ], (err, deletedTasks) => {
                     if (err) {
                         res.json(err);
                     }
                     else {
-                        res.json(taskList);
+                        // Find all tasks and subtract the user's deleted tasks
+                        Task.find({ status: 'AVAILABLE' }, (err, allTasks) => {
+                            if (err) {
+                                res.json(err);
+                            }
+                            else {
+                                // Filter out deleted tasks
+                                const taskList = allTasks.filter(
+                                    a => !deletedTasks.map(d => d._id.toString()).includes(a._id.toString())
+                                );
+                                res.json(taskList);
+                            }
+                        })  
                     }
             });
         }
@@ -81,8 +92,8 @@ router.put('/worker/:workerId/workertasks/:taskId', (req, res, next) => {
             // Update the record if it exists, or create a new one
             WorkerTask.updateOne(
                 { 
-                    workerId: req.params.workerId, 
-                    taskId: req.params.taskId },
+                    worker: user._id, 
+                    task: req.params.taskId },
                 { 
                     status: 'DELETED',
                     updatedAt: Date.now()
