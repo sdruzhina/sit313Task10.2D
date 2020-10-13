@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Card, Icon, Image } from 'semantic-ui-react' 
+import Moment from 'moment';
+import { Button, Grid, Card, Icon, Image } from 'semantic-ui-react' 
 import './TaskCard.css';
 
 function TaskCard(props) {
@@ -52,11 +53,29 @@ function TaskCard(props) {
   return (
     <Card fluid>
       <Card.Content onClick={expand} className='clickable'>
-        <Card.Header>{props.title}</Card.Header>
+        <Grid>
+          <Grid.Column floated='left' width={10}>
+            <Card.Header className='card-header'>{props.title}</Card.Header>
+          </Grid.Column>
+          <Grid.Column floated='right' width={2} className='align-right'>
+            <Card.Meta>                  
+              {(props.type.toLowerCase()).replace(/^.{1}/g, props.type[0].toUpperCase()) + ' Task'}
+            </Card.Meta>
+          </Grid.Column>
+        </Grid>
       </Card.Content>
       {expanded ? renderDetails() : null}
       <Card.Content extra>
-        <Icon name='dollar' />{props.reward}
+        <Grid>
+          <Grid.Column floated='left' width={10}>
+            <Icon name='dollar' />{props.reward}
+          </Grid.Column>
+          <Grid.Column floated='right' width={2} className='align-right'>
+            <Card.Meta>                  
+              <Icon name='clock' style={{marginRight: '10px' }} />{Moment(Date.parse(props.expiry)).format('DD MMM')}
+            </Card.Meta>
+          </Grid.Column>
+        </Grid>
       </Card.Content>
     </Card>
   );
