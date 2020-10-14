@@ -24,7 +24,8 @@ const taskSchema = new mongoose.Schema(
         },
         setup: {
             type: Object,
-            of: String
+            of: String,
+            required: true
         },
         master: {
             type: Boolean

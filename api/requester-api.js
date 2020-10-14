@@ -50,6 +50,13 @@ router.post('/requester/tasks', (req, res, next) => {
             console.log('User is not a requester');
             res.status(403).send('User is not a requester');
         }
+        // Validate image task setup
+        if (
+            req.body.type === 'IMAGE' && !req.body.setup.filename
+        ) {
+            console.log('No image file uploaded');
+            res.status(422).send({ errors: {message: 'No image file uploaded'}});
+        }
         else {
             // Create a new task
             const task = new Task({ 
