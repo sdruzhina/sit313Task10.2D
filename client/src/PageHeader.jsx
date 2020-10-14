@@ -31,7 +31,7 @@ function PageHeader() {
     authState.user 
       ? <Menu.Item as={Link} to='logout' position='right'>
           <Button inverted={true}>
-            Logout
+            Logout {authState.user.name}
           </Button>
         </Menu.Item>
       : <Menu.Item as={Link} to='login' position='right'>
